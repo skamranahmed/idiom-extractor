@@ -28,13 +28,10 @@ sentence2 = example.find_all('li')[1].text
 
 # title = soup.title.text
 def message():
-        print(headline)
-        print()
-        print(idiom)
-        print()
+        print(headline + '\n') 
+        print(idiom+'\n')
         print("Meaning :")
-        print(meaning)
-        print()
+        print(meaning + '\n')
         print(for_example)
         sentences = example.find_all('li')
         for sentence in sentences:
@@ -44,14 +41,14 @@ def message():
 
 
 # Your Account Sid and Auth Token from twilio.com/console
-account_sid = 'AC9378c521d15ae65913dfdd4d824115e6'
-auth_token = 'd7537faf19b403dba8dd12af169c92cb'
+account_sid = 'Your_Account_SID'
+auth_token = 'Your_auth_token'
 client = Client(account_sid, auth_token)
 
 message = client.messages.create(
                               body=headline+"\n\n"+idiom+"\n\nMeaning\n\n"+meaning+"\n\n"+for_example+"\n\n"+sentence1+"\n\n"+sentence2,
                               from_='whatsapp:+14155238886',
-                              to='whatsapp:+919973214649'
+                              to='whatsapp:+91XXXXXXXXXX'
                           )
 
 print(message.sid)
