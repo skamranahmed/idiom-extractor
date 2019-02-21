@@ -1,0 +1,57 @@
+import requests
+from bs4 import BeautifulSoup
+from twilio.rest import Client
+
+source = requests.get('https://www.englishclub.com/ref/idiom-of-the-day.php').text
+
+soup = BeautifulSoup(source,'lxml')
+
+# content = soup.find('main', id="ec-main")
+
+# print(content.prettify())
+
+
+headline = soup.find('h1').text
+
+idiom = soup.find('h2').text
+
+meaning = soup.find_all('p')[1].text
+
+example = soup.find('div',class_='example')
+for_example = example.h3.text
+sentence1 = example.find_all('li')[0].text
+sentence2 = example.find_all('li')[1].text
+
+
+# print(example)
+# print(for_example)
+
+# title = soup.title.text
+def message():
+        print(headline)
+        print()
+        print(idiom)
+        print()
+        print("Meaning :")
+        print(meaning)
+        print()
+        print(for_example)
+        sentences = example.find_all('li')
+        for sentence in sentences:
+            print("-> "+sentence.text)
+            print()
+
+
+
+# Your Account Sid and Auth Token from twilio.com/console
+account_sid = 'AC9378c521d15ae65913dfdd4d824115e6'
+auth_token = 'd7537faf19b403dba8dd12af169c92cb'
+client = Client(account_sid, auth_token)
+
+message = client.messages.create(
+                              body=headline+"\n\n"+idiom+"\n\nMeaning\n\n"+meaning+"\n\n"+for_example+"\n\n"+sentence1+"\n\n"+sentence2,
+                              from_='whatsapp:+14155238886',
+                              to='whatsapp:+919973214649'
+                          )
+
+print(message.sid)
